@@ -2,9 +2,17 @@ if ( process.argv.length < 4 ) {
 	
 	console.log (
 		"\n" +
-		"Please call me like this.\n" +
+		"Call me like this:\n" +
 		"\n" +
-		"node app.js <lat> <lon>\n" +
+		"node app.js <latitude> <longitude>\n" +
+		"\n" +
+		"\n" +
+		"Coordinates are in WGS 1984 decimal degrees.\n" +
+		"\n" +
+		"For example, Washington D.C.:\n" +
+		"\n" +
+		"node app.js 38.8951100 -77.0363700\n" +
+		"\n" +
 		"\n" +
 		"Thanks!\n"
 	);
@@ -71,9 +79,17 @@ function getWeatherData ( location, then ) {
 		
 		var responseText = "";
 		
-		response.on ( "data", chunk => responseText += chunk );
+		response.on ( "data", ( chunk ) => {
+			
+			responseText += chunk;
+			
+			console.log ( "Downloading (%d bytes)", responseText.length.toFixed ( 2 ) );
+			
+		} );
 		
 		response.on ( "end", () => {
+			
+			console.log ( "Downloaded (%d bytes)", responseText.length.toFixed ( 2 ) );
 			
 			try {
 				
